@@ -4,9 +4,11 @@
 #include <istream>
 #include <fstream>
 #include <sstream>
-#include <wcs_string.h>
+#include <iostream>
+#include <WCS_String.h>
 
-class student : public WCS_String
+
+class student
 {
 public:
 	student();
@@ -16,9 +18,11 @@ public:
 	student Copy(const string &);
 	student Copy(const student &);
 	bool readFile(const char *);
+	bool readFile(const string &);
 	bool addGrade(int, int);
-	int getGrade(int);
-	int getAverage();
+	int getGrade(int) const;
+	int getAverage() const;
+	const string getName();
 	~student();
 private:
 	string studentName;
