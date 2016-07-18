@@ -1,14 +1,19 @@
 #include "Student.h"
 
 student::student() 
-{ }
+{
+}
 
 student::student(const string name, const int newGrades[5])
 {
-	studentName = name;
 	for (int i = 0; i < 5; i++)
 		grades[i] = newGrades[i];
 	average = getAverage();
+}
+
+student::student(const string & fileName)
+{
+
 }
 
 student::student(const char name[], const int newGrades[5])
@@ -19,8 +24,15 @@ student::student(const char name[], const int newGrades[5])
 	average = getAverage();
 }
 
-student::student(const student &)
-{ }
+student::student(const student & stud)
+{ 
+	int i;
+	studentName = stud.studentName;
+	for (i = 0; i < 5; i++)
+	{
+		grades[i] = stud.grades[i];
+	}
+}
 
 student::~student()
 { }
@@ -98,15 +110,18 @@ bool student::readFile(const string & fileName)
 		return false;
 	else
 	{
-		getline(file, studentName, '\n');
-		cout << "Student name: " << studentName << endl;
-		for (c = 0; c < 5; c++)
+		do
 		{
-			getline(file, line, ',');
-			cout << "Grade string: " << line << endl;
-			stringstream converter(line);
-			converter >> grades[c];
-		}
+			getline(file, studentName, '\n');
+			cout << "Student name: " << studentName << endl;
+			for (c = 0; c < 5; c++)
+			{
+				getline(file, line, ',');
+				cout << "Grade string: " << line << endl;
+				stringstream converter(line);
+				converter >> grades[c];
+			}
+		} while (true);
 	}
 	return true;
 }

@@ -13,6 +13,7 @@ class student
 public:
 	student();
 	student(const string, const int [5]);
+	student(const string &);
 	student(const char [], const int[5]);
 	student(const student &);
 	student Copy(const string &);
@@ -23,10 +24,14 @@ public:
 	int getGrade(int) const;
 	int getAverage() const;
 	const string getName();
-	~student();
+	~student();	
 private:
+	struct {
+		string names;
+		int grade[5];
+	};
 	string studentName;
-	int grades [5];
+	int grades[5];
 	int average;
 };
 #endif // !STUDENT_H

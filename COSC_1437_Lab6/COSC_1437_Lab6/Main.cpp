@@ -11,8 +11,9 @@ void main()
 	student s2(str1, g1);
 	student s3;
 	s1.readFile("s1.txt");
+	cout << "Student Name: " << s1.getName() << " Average: " << s1.getAverage() << endl;
 	s3.readFile("s2.txt");
-	cout << "Student Name: " << s3.getName() << "Average: " << s3.getAverage() << endl;
+	cout << "Student Name: " << s3.getName() << " Average: " << s3.getAverage() << endl;
 	cout << s1.getAverage() << endl;
 	system("PAUSE");
 }
