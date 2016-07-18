@@ -1,22 +1,7 @@
 #include "Student.h"
 
 student::student()
-{ }
-
-student::student(const string name, const int newGrades[5] )
 {
-	studentName = name;
-	for (int i = 0; i < 5; i++)
-		grades[i] = newGrades[i];
-	average = getAverage();
-}
-
-student::student(const char name[], const int newGrades[5])
-{
-	studentName = name;
-	for (int i = 0; i < 5; i++)
-		grades[i] = newGrades[i];
-	average = getAverage();
 }
 
 student::student(const student &)
@@ -25,51 +10,74 @@ student::student(const student &)
 student::~student()
 { }
 
-bool student::addGrade(int c, int grade)
+bool student::addGrade(int n, int c, int grade)
 {
 	if (isdigit(grade))
 	{
-		grades[c] = grade;
+		s1[n].grade[c] = grade;
 		return true;
 	}
 	else
 		return false;
 }
 
-int student::getAverage()
+int student::getAverage(int n)
 {
 	int i, total;
 	for (i = 0, total = 0; i < 5; i++)
-	{
-		total += grades[i];
-	}
+		total += s1[n].grade[i];
 	int tempAverage = total/5;
+	average[n] = tempAverage;
 	return tempAverage;
 }
 
-int student::getGrade(int c)
+void student::printAll()
 {
-	return grades[c];
+	int i;
+	for (i = 0; i < 25; i++)
+	{
+		cout << "Student name: " << s1[i].name << "\t with grades: "; printGrades(i); cout << "\t average grade: " << getAverage(i) << endl;
+	}
+}
+
+void student::printGrades(int i)
+{
+	int c = 0;
+	for (c; c < 5; c++)
+	{
+		cout << s1[i].grade[c] << " ";
+	}
+}
+
+int student::getGrade(int n, int c)
+{
+	return s1[n].grade[c];
 }
 
 bool student::readFile(const char * fileName)
 {
 	string line, name;
-	int c;
+	int c; 
+	int i = 0;
 	ifstream file(fileName);
 	if (file.bad())
 		return false;
 	else
 	{
-		getline(file, studentName, '\n');
-		cout << "Student name: " << studentName << endl;
-		getline(file, line);
-		cout << "Grade string: " << line << endl;
-		for (c = 0; c < 5; c++)
-		{
-			stringstream converter(line);
-			converter >> grades[c];
-		}
+		do {
+			getline(file, s1[i].name, '\n');
+			cout << "Student name: " << s1[i].name << "\t";
+			cout << "Grade string: ";
+			for (c = 0; c < 5; c++)
+			{
+				getline(file, line, ',');
+				cout << line << ",";
+				stringstream converter(line);
+				converter >> s1[i].grade[c];
+			}
+			cout << endl;
+			i++;
+		} while (!file.eof());
 	}
 	return true;
 }
