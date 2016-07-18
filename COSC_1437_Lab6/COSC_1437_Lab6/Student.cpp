@@ -70,6 +70,7 @@ bool student::readFile(const char * fileName)
 			stringstream converter(line);
 			converter >> grades[c];
 		}
+
 	}
 	return true;
 }
