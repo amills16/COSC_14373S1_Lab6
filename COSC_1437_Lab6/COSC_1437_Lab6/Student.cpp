@@ -1,127 +1,85 @@
 #include "Student.h"
 
-student::student() 
+student::student()
 {
 }
 
-student::student(const string name, const int newGrades[5])
-{
-	for (int i = 0; i < 5; i++)
-		grades[i] = newGrades[i];
-	average = getAverage();
-}
-
-student::student(const string & fileName)
-{
-
-}
-
-student::student(const char name[], const int newGrades[5])
-{
-	studentName = name;
-	for (int i = 0; i < 5; i++)
-		grades[i] = newGrades[i];
-	average = getAverage();
-}
-
-student::student(const student & stud)
-{ 
-	int i;
-	studentName = stud.studentName;
-	for (i = 0; i < 5; i++)
-	{
-		grades[i] = stud.grades[i];
-	}
-}
+student::student(const student &)
+{ }
 
 student::~student()
 { }
 
-bool student::addGrade(int c, int grade)
+bool student::addGrade(int n, int c, int grade)
 {
 	if (isdigit(grade))
 	{
-		grades[c] = grade;
+		s1[n].grade[c] = grade;
 		return true;
 	}
 	else
 		return false;
 }
 
-student student::Copy(const string &)
-{
-	return *this;
-}
-
-student student::Copy(const student &)
-{
-	return *this;
-}
-
-int student::getAverage() const
+int student::getAverage(int n)
 {
 	int i, total;
 	for (i = 0, total = 0; i < 5; i++)
-	{
-		total += grades[i];
-	}
-	int tempAverage = total / 5;
+		total += s1[n].grade[i];
+	int tempAverage = total/5;
+	average[n] = tempAverage;
 	return tempAverage;
 }
 
-const string student::getName()
+void student::printAll()
 {
-	return studentName;
+	int i;
+	for (i = 0; i < 25; i++)
+	{
+		cout << "Student name: " << s1[i].name << "\t with grades: "; printGrades(i); cout << "\t average grade: " << getAverage(i) << endl;
+	}
 }
 
-int student::getGrade(int c) const
+void student::printGrades(int i)
 {
-	return grades[c];
+	int c = 0;
+	for (c; c < 5; c++)
+	{
+		cout << s1[i].grade[c] << " ";
+	}
+}
+
+int student::getGrade(int n, int c)
+{
+	return s1[n].grade[c];
 }
 
 bool student::readFile(const char * fileName)
 {
 	string line, name;
-	int c;
+	int c; 
+	int i = 0;
 	ifstream file(fileName);
 	if (file.bad())
 		return false;
 	else
 	{
-		getline(file, studentName, '\n');
-		cout << "Student name: " << studentName << endl;
-		for (c = 0; c < 5; c++)			//pChar = strtok (Line, ",");
-		{								//while(pChar != NULL)
-			getline(file, line, ',');	//values [i] = strtok(NULL, ",");
-			cout << "Grade string: " << line << endl;
-			stringstream converter(line);
-			converter >> grades[c];
-		}
+		do {
+			getline(file, s1[i].name, '\n');
+			cout << "Student name: " << s1[i].name << "\t";
+			cout << "Grade string: ";
+			for (c = 0; c < 5; c++)
+			{
+				getline(file, line, ',');
+				cout << line << ",";
+				stringstream converter(line);
+				converter >> s1[i].grade[c];
+			}
+			cout << endl;
+			i++;
+		} while (!file.eof());
 	}
 	return true;
 }
 
-bool student::readFile(const string & fileName)
-{
-	string line, name;
-	int c;
-	ifstream file(fileName);
-	if (file.bad())
-		return false;
-	else
-	{
-		do
-		{
-			getline(file, studentName, '\n');
-			cout << "Student name: " << studentName << endl;
-			for (c = 0; c < 5; c++)
-			{
-				getline(file, line, ',');
-				cout << "Grade string: " << line << endl;
-				stringstream converter(line);
-				converter >> grades[c];
-			}
-		} while (true);
-	}
-	return true;
-}
+//End;
