@@ -72,6 +72,10 @@
     <IncludePath>$(VC_IncludePath);C:\VisualStudio2015Libs\WCS_Utilities\WCS_String;$(WindowsSDK_IncludePath);C:\VisualStudio2015Libs\WCS_Utilities\WCS_Pointer</IncludePath>
     <LibraryPath>C:\VisualStudio2015Libs\WCS_Utilities\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>C:\VisualStudio2015Libs\WCS_Utilities\WCS_Pointer;C:\VisualStudio2015Libs\WCS_Utilities\WCS_String;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\VisualStudio2015Libs\WCS_Utilities\Debug;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -88,6 +92,9 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>WCS_String.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

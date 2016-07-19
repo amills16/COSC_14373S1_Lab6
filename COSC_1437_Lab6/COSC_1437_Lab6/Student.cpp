@@ -28,7 +28,7 @@ int student::getAverage(int n)
 		total += s1[n].grade[i];
 	int tempAverage = total/5;
 	average[n] = tempAverage;
-	return tempAverage;
+	return average[n];
 }
 
 void student::printAll()
@@ -54,7 +54,7 @@ int student::getGrade(int n, int c)
 	return s1[n].grade[c];
 }
 
-bool student::readFile(const char * fileName)
+/*bool student::readFile(const char * fileName)			//This needs fixing, doesn't read in names correctly
 {
 	string line, name;
 	int c; 
@@ -65,7 +65,7 @@ bool student::readFile(const char * fileName)
 	else
 	{
 		do {
-			getline(file, s1[i].name, '\n');
+			getline(file, s1[i].name);
 			cout << "Student name: " << s1[i].name << "\t";
 			cout << "Grade string: ";
 			for (c = 0; c < 5; c++)
@@ -78,6 +78,40 @@ bool student::readFile(const char * fileName)
 			cout << endl;
 			i++;
 		} while (!file.eof());
+	}
+	return true;
+}*/
+
+bool student::readFile(const char * fileName)			//This needs fixing, doesn't read in names correctly
+{
+	string line, name;
+	char lines [256] = "";
+	char * pChar = "";
+	char separators[] = ",";
+	int c = 0, i = 0;
+	ifstream file;
+	file.open(fileName,ios_base::in);
+	if (file.bad())
+		return false;
+	else
+	{
+		while (!file.eof())
+		{
+			file.getline(lines, 256, '\n');
+			s1[i].name = lines;
+			cout << "Student name: " << s1[i].name << "\t";
+			cout << "Grade string: ";
+			file.getline(lines, 256);
+			pChar = strtok(lines, separators);
+			do {
+				s1[i].grade[c] = atoi(pChar);
+				cout << s1[i].grade[c] << ",";
+				c++;
+				pChar = strtok(NULL, separators);
+			} while (pChar != NULL);
+			cout  << endl;
+			i++;
+		} 
 	}
 	return true;
 }
