@@ -59,24 +59,30 @@ bool student::readFile(const char * fileName)
 	string line, name;
 	int c; 
 	int i = 0;
+	char *	pChar;
+	char	Seps[] = ", .;";
 	ifstream file(fileName);
 	if (file.bad())
 		return false;
 	else
 	{
 		do {
-			getline(file, s1[i].name, '\n');
+			if(i==0)
+				getline(file, s1[i].name, '\n');
 			cout << "Student name: " << s1[i].name << "\t";
 			cout << "Grade string: ";
 			for (c = 0; c < 5; c++)
 			{
 				getline(file, line, ',');
-				cout << line << ",";
+				cout << line << " ";
 				stringstream converter(line);
+				if (c == 0 && i !=0)
+					converter >> s1[i].name;
 				converter >> s1[i].grade[c];
 			}
 			cout << endl;
 			i++;
+			//getline(file, s1[i].name, '\n');
 		} while (!file.eof());
 	}
 	return true;
