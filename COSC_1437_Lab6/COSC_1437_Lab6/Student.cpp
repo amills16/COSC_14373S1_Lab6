@@ -1,64 +1,41 @@
 #include "Student.h"
 
 student::student()
-{
-}
-
-student::student(const student &)
 { }
+
+student::student(const student & OldStudent)
+{
+	int c, x;
+	size = OldStudent.size;
+	for (c = 0; c < size; c++)
+	{
+		s1[c].name = OldStudent.s1[c].name;
+		for (x = 0; x < 5; x++)
+			s1[c].grade[x] = OldStudent.s1[c].grade[x];
+	}
+}
 
 student::~student()
 { }
 
-bool student::addGrade(int n, int c, int grade)
+student student::Copy(const student & OldStudent)
 {
-	if (isdigit(grade))
+	int c, x;
+	size = OldStudent.size;
+	for (c = 0; c < size; c++)
 	{
-		s1[n].grade[c] = grade;
-		return true;
+		s1[c].name = OldStudent.s1[c].name;
+		for (x = 0; x < 5; x++)
+			s1[c].grade[x] = OldStudent.s1[c].grade[x];
 	}
-	else
-		return false;
+	return *this;
+	
 }
 
-int student::getAverage(int n)
+/*bool student::readFile(const string & fileName)			//JK I fixed it...
 {
-	int i, total;
-	for (i = 0, total = 0; i < 5; i++)
-		total += s1[n].grade[i];
-	int tempAverage = total/5;
-	average[n] = tempAverage;
-	return average[n];
-}
-
-void student::printAll()
-{
-	int i;
-	for (i = 0; i < 25; i++)
-	{
-		cout << "Student name: " << s1[i].name << "\t with grades: "; printGrades(i); cout << "\t average grade: " << getAverage(i) << endl;
-	}
-}
-
-void student::printGrades(int i)
-{
-	int c = 0;
-	for (c; c < 5; c++)
-	{
-		cout << s1[i].grade[c] << " ";
-	}
-}
-
-int student::getGrade(int n, int c)
-{
-	return s1[n].grade[c];
-}
-
-/*bool student::readFile(const char * fileName)			//This needs fixing, doesn't read in names correctly
-{
-	string line, name;
-	int c; 
-	int i = 0;
+	string line;
+	int c, i = 0;
 	ifstream file(fileName);
 	if (file.bad())
 		return false;
@@ -68,35 +45,40 @@ int student::getGrade(int n, int c)
 			getline(file, s1[i].name);
 			cout << "Student name: " << s1[i].name << "\t";
 			cout << "Grade string: ";
-			for (c = 0; c < 5; c++)
+			for (c = 0; c < 4; c++)
 			{
 				getline(file, line, ',');
 				cout << line << ",";
 				stringstream converter(line);
 				converter >> s1[i].grade[c];
 			}
-			cout << endl;
+			getline(file, line);
+			cout << line << "," << endl;
+			stringstream converter(line);
+			converter >> s1[i].grade[4];
 			i++;
 		} while (!file.eof());
+		size = i;
 	}
 	return true;
-}*/
+*/
 
 bool student::readFile(const char * fileName)			//This needs fixing, doesn't read in grades correctly
 {
-	string line, name;
-	char lines [256] = "";
+	//string line, name;
+	char lines[256] = "";
 	char * pChar = "";
 	char separators[] = ",";
-	int c = 0, i = 0;
+	int c, i = 0;
 	ifstream file;
-	file.open(fileName,ios_base::in);
+	file.open(fileName, ios_base::in);
 	if (file.bad())
 		return false;
 	else
 	{
 		while (!file.eof())
 		{
+			c = 0;
 			file.getline(lines, 256, '\n');
 			s1[i].name = lines;
 			cout << "Student name: " << s1[i].name << "\t";
@@ -109,11 +91,115 @@ bool student::readFile(const char * fileName)			//This needs fixing, doesn't rea
 				c++;
 				pChar = strtok(NULL, separators);
 			} while (pChar != NULL);
-			cout  << endl;
+			cout << endl;
 			i++;
-		} 
+		}
+		size = i;
 	}
 	return true;
 }
 
+bool student::addGrade(const int n, const int c, const int grade)
+{
+	if (isdigit(grade))
+	{
+		s1[n].grade[c] = grade;
+		return true;
+	}
+	else
+		return false;
+}
+
+bool student::compareStudent(const student & compareList, const int & studentNumber)
+{
+	return false;
+}
+
+bool student::compareStudent(const student & compareList, const string & studentName)
+{
+	return false;
+}
+
+bool student::compareStudent(const string & studentNameA, const string & studentNameB)
+{
+	return false;
+}
+
+int student::getGrade(const int & n, const int & c)
+{
+	return s1[n].grade[c];
+}
+
+int student::getAverage(const int & n)
+{
+	int i, total;
+	for (i = 0, total = 0; i < 5; i++)
+		total += s1[n].grade[i];
+	int tempAverage = total/5;
+	average[n] = tempAverage;
+	return average[n];
+}
+
+void student::printAll()
+{
+	int i;
+	for (i = 0; i < size; i++)
+	{
+		cout << "Student name: " << s1[i].name << "\t with grades: "; printGrades(i); cout << "\t average grade: " << getAverage(i);
+		if (getAverage(i) < 60)
+			cout << " FAILURE!" << endl;
+		else
+			cout << endl;
+	}
+}
+
+void student::printName(const int & pos)
+{
+	cout << s1[pos].name;
+}
+
+void student::printGrades(const int & pos)
+{
+	int c = 0;
+	for (c; c < 5; c++)
+	{
+		cout << s1[pos].grade[c] << " ";
+	}
+}
+
+void student::sortNames(const int & mode)
+{
+	int i, j;
+	students temp;
+	if (mode == 1)
+	{
+		for (i = 0; i < (size - 1); i++)
+		{
+			for (j = i + 1; j < size; j++)
+			{
+				if (s1[i].name > s1[j].name)
+				{
+					temp = s1[i];
+					s1[i] = s1[j];
+					s1[j] = temp;
+				}
+			}
+		}
+	}
+	else
+	{
+		for (i = 0; i < (size - 1); i++)
+		{
+			for (j = i + 1; j < size; j++)
+			{
+				if (s1[i].name < s1[j].name)
+				{
+					temp = s1[i];
+					s1[i] = s1[j];
+					s1[j] = temp;
+				}
+			}
+		}
+	}
+}
 //End;
