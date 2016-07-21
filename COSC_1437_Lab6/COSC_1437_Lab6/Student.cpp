@@ -32,7 +32,7 @@ student student::Copy(const student & OldStudent)
 	
 }
 
-/*bool student::readFile(const string & fileName)			//JK I fixed it...
+bool student::readFile(const string & fileName)			//JK I fixed it...
 {
 	string line;
 	int c, i = 0;
@@ -61,9 +61,9 @@ student student::Copy(const student & OldStudent)
 		size = i;
 	}
 	return true;
-*/
+}
 
-bool student::readFile(const char * fileName)			//This needs fixing, doesn't read in grades correctly
+/*bool student::readFile(const char * fileName)			//This needs fixing, doesn't read in grades correctly
 {
 	//string line, name;
 	char lines[256] = "";
@@ -76,7 +76,7 @@ bool student::readFile(const char * fileName)			//This needs fixing, doesn't rea
 		return false;
 	else
 	{
-		while (!file.eof())
+		do
 		{
 			c = 0;
 			file.getline(lines, 256, '\n');
@@ -95,9 +95,9 @@ bool student::readFile(const char * fileName)			//This needs fixing, doesn't rea
 			i++;
 		}
 		size = i;
-	}
+	}while (!file.eof());
 	return true;
-}
+}*/
 
 bool student::addGrade(const int n, const int c, const int grade)
 {

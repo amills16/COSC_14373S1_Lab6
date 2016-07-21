@@ -15,7 +15,7 @@ public:
 	student();
 	student(const student &);
 	student Copy(const student &);
-	bool readFile(const char *);
+	bool readFile(const string &);
 	bool addGrade(const int, const int, const int);
 	bool compareStudent(const student &, const int &);
 	bool compareStudent(const student &, const string &);
