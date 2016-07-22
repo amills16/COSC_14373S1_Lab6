@@ -9,6 +9,7 @@ public:
 	struct students {
 		std::string name;
 		int grade[5];
+		int average;
 	};
 };
 

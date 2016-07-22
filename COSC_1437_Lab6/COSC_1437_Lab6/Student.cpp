@@ -32,7 +32,7 @@ student student::Copy(const student & OldStudent)
 	
 }
 
-bool student::readFile(const string & fileName)			//JK I fixed it...
+/*bool student::readFile(const string & fileName)			//JK I fixed it...
 {
 	string line;
 	int c, i = 0;
@@ -61,9 +61,9 @@ bool student::readFile(const string & fileName)			//JK I fixed it...
 		size = i;
 	}
 	return true;
-}
+}*/
 
-/*bool student::readFile(const char * fileName)			//This needs fixing, doesn't read in grades correctly
+bool student::readFile(const char * fileName)			//This needs fixing, doesn't read in grades correctly
 {
 	//string line, name;
 	char lines[256] = "";
@@ -93,11 +93,11 @@ bool student::readFile(const string & fileName)			//JK I fixed it...
 			} while (pChar != NULL);
 			cout << endl;
 			i++;
-		}
+		} while (!file.eof());
 		size = i;
-	}while (!file.eof());
+	}
 	return true;
-}*/
+}
 
 bool student::addGrade(const int n, const int c, const int grade)
 {
@@ -135,9 +135,8 @@ int student::getAverage(const int & n)
 	int i, total;
 	for (i = 0, total = 0; i < 5; i++)
 		total += s1[n].grade[i];
-	int tempAverage = total/5;
-	average[n] = tempAverage;
-	return average[n];
+	s1[n].average = total * .2;
+	return s1[n].average;
 }
 
 void student::printAll()

@@ -9,13 +9,13 @@
 #include "newArray.h"
 #include <wcs_string.h>
 
-class student : private newArray
+class student : public WCS_String
 {
 public:
 	student();
 	student(const student &);
 	student Copy(const student &);
-	bool readFile(const string &);
+	bool readFile(const char *);
 	bool addGrade(const int, const int, const int);
 	bool compareStudent(const student &, const int &);
 	bool compareStudent(const student &, const string &);
@@ -28,8 +28,11 @@ public:
 	void sortNames(const int &);
 	~student();
 private:
-	students s1[25];
+	struct students {
+		std::string name;
+		int grade[5];
+		int average;
+	};students s1[25]; // make array of students a class object
 	int size;
-	int average[25];
 };
 #endif // !STUDENT_H
